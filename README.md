@@ -27,5 +27,5 @@ $app->run();
 ```
 
 ## license
-the project is under the [MIT](http://git.chenqinghe.com/Qinghe/Swolf/src/master/LICENSE) license.
+the project is under the [MIT](https://github.com/php-swolf/Swolf/blob/master/LICENSE) license.
 
