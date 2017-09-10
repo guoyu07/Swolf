@@ -5,7 +5,7 @@ make swoole more elegant.
 
 # Usage
 
-## basic tcp server
+### basic tcp server
 
 ```php
 
@@ -24,7 +24,7 @@ $app->run();
 ```
 
 
-## http server
+### http server
 ```php
 
 $app = new HttpServer('0.0.0.0', 9501);
@@ -41,7 +41,7 @@ $app->run();
 
 ```
 
-## websocket server
+### websocket server
 ```php
 
 $app = new WebsocketServer($host, $port);
