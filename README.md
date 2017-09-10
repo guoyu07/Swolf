@@ -3,11 +3,6 @@
 make swoole more elegant.
 
 
-## feature
-- easy to register global variable
-- easy router
-- clear logic
-
 ## usage
 
 ```php
