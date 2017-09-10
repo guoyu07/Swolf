@@ -2,9 +2,10 @@
 
 namespace Swolf\Server;
 
-
-use Swolf\Server\Server;
+use Swolf\Interfaces\MessageHandler;
+use Swoole\WebSocket\Server;
 use Swolf\Container\Resource;
+use Swolf\Interfaces\RequestHandler;
 
 class WebsocketServer extends BasicServer
 {
@@ -14,6 +15,17 @@ class WebsocketServer extends BasicServer
     {
         $this->server = new Server($host, $port);
         Resource::$server = &$this->server;
+    }
+
+
+    public function setRequestHandler(RequestHandler $requestHandler)
+    {
+        $this->server->on('Request', [$requestHandler, 'onRequest']);
+    }
+
+    public function setMessageHandler(MessageHandler $messageHandler)
+    {
+        $this->server->on('Message', [$messageHandler, 'onMessage']);
     }
 
 

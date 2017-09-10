@@ -7,6 +7,7 @@ use Swolf\Command\Parser;
 use App\Process\Monitor;
 use App\Handler\WorkerStartHandler\InitDatabaseConnection;
 use App\Handler\RequestHandler\HttpHandler;
+use App\Handler\MessageHandler\EchoFrame;
 
 $command = new Parser();
 $host = &$command->String('host', Parser::PROVIDE_MUST, '0.0.0.0', 'the host listen to');
@@ -19,6 +20,8 @@ $app = new WebsocketServer($host, $port);
 $app->setWorkerStartHandler(new InitDatabaseConnection());
 
 $app->setRequestHandler(new HttpHandler());
+
+$app->setMessageHandler(new EchoFrame());
 
 $app->addProcess(new Monitor());
 
