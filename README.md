@@ -3,24 +3,66 @@
 make swoole more elegant.
 
 
-## usage
+# Usage
+
+### basic tcp server
 
 ```php
 
-$app = new Server('0.0.0.0', 9501);
+$app = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
 
-//$app->init(['task_worker_num' => 4]);
+$app->setWorkerStartHandler(new InitDatabaseConnection());
 
-$app->setWorkerStartHandler(new DefaultWorkerStartHandler());
+$app->setReceiveHandler(new EchoMsg());
 
-$app->setRequestHandler(new DefaultRequestHandler());
+$app->addProcess(new Monitor());
 
-$app->setTaskHandler(new DefaultTaskHandler());
+echo 'TCP server is running at ' . $host . ':' . $port . "\n";
 
 $app->run();
 
 ```
 
-## license
+
+### http server
+```php
+
+$app = new HttpServer('0.0.0.0', 9501);
+
+$app->setWorkerStartHandler(new InitDatabaseConnection());
+
+$app->setRequestHandler(new HttpHandler());
+
+$app->addProcess(new Monitor());
+
+echo 'HTTP server is running at ' . $host . ':' . $port . "\n";
+
+$app->run();
+
+```
+
+### websocket server
+```php
+
+$app = new WebsocketServer($host, $port);
+
+$app->setWorkerStartHandler(new InitDatabaseConnection());
+
+//if requesthandler is set, the server can also provide http service.
+$app->setRequestHandler(new HttpHandler());
+
+//must set messagehandler
+$app->setMessageHandler(new EchoFrame());
+
+$app->addProcess(new Monitor());
+
+echo 'WebSocket server is running at ' . $host . ':' . $port . "\n";
+
+$app->run();
+
+```
+
+
+# license
 the project is under the [MIT](https://github.com/php-swolf/Swolf/blob/master/LICENSE) license.
 
