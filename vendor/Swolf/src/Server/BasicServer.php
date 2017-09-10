@@ -24,7 +24,7 @@ use Swolf\Interfaces\PacketHandler;
 use Swolf\Interfaces\PipeMessageHandler;
 use Swolf\Interfaces\ReceiveHandler;
 
-class Server
+class BasicServer
 {
     public function __construct($host, $port, $mode = SWOOLE_PROCESS, $sock_type = SWOOLE_SOCK_TCP)
     {

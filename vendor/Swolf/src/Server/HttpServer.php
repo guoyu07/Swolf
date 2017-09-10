@@ -6,7 +6,7 @@ use Swolf\Container\Resource;
 use Swoole\Http\Server as SwooleHttpServer;
 use Swolf\Interfaces\RequestHandler;
 
-class HttpServer extends Server
+class HttpServer extends BasicServer
 {
 
     public function __construct($host, $port)
