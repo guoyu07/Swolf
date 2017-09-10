@@ -3,13 +3,14 @@ namespace Swolf\Interfaces;
 
 use Swoole\Server;
 
-interface WorkerStopHandler
+interface TimerHandler
 {
+
     /**
      * @param Server $server
-     * @param int $worker_id
+     * @param int $interval
      * @return mixed
      */
-    public function onWorkerStop(Server $server, $worker_id);
-}
+    public function onTimer(Server $server, $interval);
 
+}

@@ -2,7 +2,9 @@
 
 namespace Swolf\Interfaces;
 
+use Swoole\Server;
+
 interface ManagerStopHandler
 {
-    public function onManagerStop();
+    public function onManagerStop(Server $server);
 }

@@ -11,6 +11,6 @@ class HttpHandler extends HttpBaseHandler implements RequestHandler
 
     public function onRequest(Request $request, Response $response)
     {
-
+        $response->end("hello world");
     }
 }

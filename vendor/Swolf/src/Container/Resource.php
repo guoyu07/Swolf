@@ -4,9 +4,8 @@ namespace Swolf\Container;
 
 use Swoole\Http\Server;
 
-class  Container
+class  Resource
 {
-
 
     /**
      * @var null|Server
@@ -14,7 +13,7 @@ class  Container
     public static $server = null;
 
 
-    private static $Resource = [];
+    private static $resource = [];
 
 
     /**
@@ -27,10 +26,10 @@ class  Container
      */
     public static function register($name, $obj)
     {
-        if (isset(static::$Resource[$name])) {
+        if (isset(static::$resource[$name])) {
             return false;
         }
-        static::$Resource[$name] = $obj;
+        static::$resource[$name] = $obj;
         return true;
     }
 
@@ -44,7 +43,7 @@ class  Container
      */
     public function deregister($name)
     {
-        unset(static::$Resource[$name]);
+        unset(static::$resource[$name]);
     }
 
     /**
@@ -55,7 +54,7 @@ class  Container
      */
     public function isRegistered($name)
     {
-        return isset(self::$Resource[$name]);
+        return isset(self::$resource[$name]);
     }
 
 
@@ -67,7 +66,7 @@ class  Container
      */
     public static function get($name)
     {
-        return isset(static::$Resource[$name]) ? static::$Resource[$name] : null;
+        return isset(static::$resource[$name]) ? static::$resource[$name] : null;
     }
 
 

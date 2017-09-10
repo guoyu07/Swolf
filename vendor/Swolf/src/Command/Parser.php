@@ -1,9 +1,9 @@
 <?php
 
-namespace Swolf\Server;
+namespace Swolf\Command;
 
 
-class  Command
+class  Parser
 {
 
     private $params;
@@ -42,7 +42,7 @@ class  Command
         foreach ($this->params as $k => $v) {
             if (!isset($arguments[$k])) {
                 if ($v['provide'] == self::PROVIDE_MUST) {
-                    exit('command arguments parse error: argument \'' . $k . '\' needed but not defined.');
+                    exit("command arguments parse error: argument '$k' needed but not defined.\n");
                 }
                 $arguments[$k] = $v['default'];
             }

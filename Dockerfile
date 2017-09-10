@@ -1,6 +1,6 @@
 FROM php:latest
 
-COPY . /data
+COPY . /swolf
 
 # install swoole extension.
 RUN pecl install swoole
@@ -10,4 +10,4 @@ RUN pecl install swoole
 RUN echo 'extension=swoole.so' >> /usr/local/etc/php/php.ini
 
 
-CMD ["php","/data/app.php"]
+CMD ["php","/swolf/app.php","--host","0.0.0.0","--port","9501"]
