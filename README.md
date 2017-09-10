@@ -1,12 +1,7 @@
 # Swolf
 
-framework based on swoole
+make swoole more elegant.
 
-
-## feature
-- easy to register global variable
-- easy router
-- clear logic
 
 ## usage
 
@@ -27,5 +22,5 @@ $app->run();
 ```
 
 ## license
-the project is under the [MIT](http://git.chenqinghe.com/Qinghe/Swolf/src/master/LICENSE) license.
+the project is under the [MIT](https://github.com/php-swolf/Swolf/blob/master/LICENSE) license.
 
