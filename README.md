@@ -1,6 +1,6 @@
 # Swolf
 
-framework based on swoole
+make swoole more elegant.
 
 
 ## feature
