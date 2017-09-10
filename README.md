@@ -64,6 +64,7 @@ $app->run();
 
 # Document
 [中文文档](https://chenqinghe.gitbooks.io/swolf)
+
 if you like, you can translate it in other languages :).
 
 
