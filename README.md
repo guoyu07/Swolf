@@ -69,5 +69,5 @@ if you like, you can translate it in other languages :).
 
 
 # license
-the project is under the [MIT](https://github.com/php-swolf/Swolf/blob/master/LICENSE) license.
+Swolf is under the MIT license. See the [LICENSE](https://github.com/php-swolf/Swolf/blob/master/LICENSE) file for details.
 
