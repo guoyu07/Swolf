@@ -1,6 +1,6 @@
 <?php
 
-namespace Swolf\Router;
+namespace Swolf\Component\Router;
 
 class Router
 {

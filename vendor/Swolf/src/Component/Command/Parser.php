@@ -1,6 +1,6 @@
 <?php
 
-namespace Swolf\Command;
+namespace Swolf\Component\Command;
 
 
 class  Parser

@@ -1,6 +1,6 @@
 <?php
 
-namespace Swolf\Server;
+namespace Swolf\Core\Server;
 
 use Swolf\Container\Resource;
 use Swoole\Server as SwooleServer;

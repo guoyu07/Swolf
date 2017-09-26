@@ -5,7 +5,7 @@
  * @Date: 2017/9/9
  * @Time: 19:41
  */
-namespace Swolf\Interfaces;
+namespace Swolf\Core\Interfaces;
 
 use Swoole\Server;
 

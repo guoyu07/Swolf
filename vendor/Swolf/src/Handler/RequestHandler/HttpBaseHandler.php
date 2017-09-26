@@ -2,7 +2,7 @@
 
 namespace Swolf\Handler\RequestHandler;
 
-use Swolf\Interfaces\RequestHandler;
+use Swolf\Core\Interfaces\RequestHandler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 

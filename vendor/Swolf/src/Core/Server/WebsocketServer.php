@@ -1,6 +1,6 @@
 <?php
 
-namespace Swolf\Server;
+namespace Swolf\Core\Server;
 
 use Swolf\Interfaces\MessageHandler;
 use Swoole\WebSocket\Server;

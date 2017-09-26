@@ -1,29 +1,43 @@
 <?php
-/**
- * @Description:
- * @Author: chenchao
- * @Date: 2017/9/26
- * @Time: 9:57
- */
 
-namespace Swolf\Component\Process;
 
-use Swolf\Interfaces\Process;
-use Swolf\Container\Resource;
+namespace Swolf\Process;
+
+use Swolf\Core\Interfaces\Process;
+use Swolf\Core\Container\Resource;
 
 class FileWatcher implements Process
 {
 
-
+    /**
+     * use inotify extension or not.
+     *
+     * @var bool
+     */
     protected $useInotify = false;
 
 
+    /**
+     * inotify resource
+     *
+     * @var resource
+     */
     protected $inotifyInstance;
 
 
+    /**
+     * inotify watch descriptor.
+     *
+     * @var array
+     */
     protected $watchDescriptor = [];
 
 
+    /**
+     * list of directories or files that to be watched.
+     *
+     * @var array
+     */
     protected $watchTarget = [];
 
 
@@ -35,6 +49,12 @@ class FileWatcher implements Process
         }
     }
 
+
+    /**
+     * add a file or directory to watch.
+     *
+     * @param string $pathname
+     */
     public function addWatchTarget($pathname)
     {
 
@@ -51,6 +71,13 @@ class FileWatcher implements Process
     }
 
 
+    /**
+     * delete watch target.
+     *
+     * @param $pathname
+     * @return bool
+     * @throws \Exception
+     */
     public function removeWatchTarget($pathname)
     {
 
@@ -66,6 +93,11 @@ class FileWatcher implements Process
         return true;
     }
 
+
+    /**
+     * watching files.
+     *
+     */
     public function watch()
     {
 
@@ -87,6 +119,11 @@ class FileWatcher implements Process
     }
 
 
+    /**
+     * if the file or directory has been changed.
+     *
+     * @return bool
+     */
     protected function isTargetChanged()
     {
         foreach ($this->watchTarget as $k => $v) {
@@ -109,12 +146,23 @@ class FileWatcher implements Process
 class WatchTarget
 {
 
+    /**
+     * absolute path of file or directory.
+     *
+     * @var bool|string
+     */
     private $absPath;
 
 
-    public $hashResult = '';
-
-
+    /**
+     * WatchTarget constructor.
+     * get the target absolute path
+     *
+     * @param $path
+     * @throws \Exception
+     *if the target not exists. throw a Exception
+     *
+     */
     public function __construct($path)
     {
         $absPath = realpath($path);
@@ -124,7 +172,11 @@ class WatchTarget
         $this->absPath = $absPath;
     }
 
-
+    /**
+     * calculate the hash of target.And see whether the result is changed.
+     *
+     * @return bool
+     */
     public function isChanged()
     {
         static $hashResult;
@@ -135,16 +187,22 @@ class WatchTarget
     }
 
 
+    /**
+     * calculate the hash of result.
+     * if the target is a directory, calculate the hash recursively.
+     *
+     * @return string
+     */
     public function hash()
     {
-        $files = scandir($this->absPath);
         $md5str = '';
+
+        $files = scandir($this->absPath);
         foreach ($files as $file) {
             if (is_dir($file)) {
                 $t = new WatchTarget($file);
                 $md5str .= $t->hash();
             } else {
-
                 $md5str .= md5_file($file);
             }
         }
@@ -153,7 +211,12 @@ class WatchTarget
 
     }
 
-
+    /**
+     * use the object as array key. privide __toString()
+     * so that the object can be transfered to string.
+     *
+     * @return bool|string
+     */
     public function __toString()
     {
         return $this->absPath;

@@ -1,5 +1,5 @@
 <?php
-namespace Swolf\Interfaces;
+namespace Swolf\Core\Interfaces;
 
 use Swoole\Server;
 

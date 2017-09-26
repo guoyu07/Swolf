@@ -1,6 +1,6 @@
 <?php
 
-namespace Swolf\Container;
+namespace Swolf\Core\Container;
 
 use Swoole\Http\Server;
 
