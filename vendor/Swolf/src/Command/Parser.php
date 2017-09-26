@@ -42,7 +42,9 @@ class  Parser
         foreach ($this->params as $k => $v) {
             if (!isset($arguments[$k])) {
                 if ($v['provide'] == self::PROVIDE_MUST) {
-                    exit("command arguments parse error: argument '$k' needed but not defined.\n");
+                    echo "command arguments parse error: argument '$k' needed but not defined.\n";
+                    $this->Usage();
+                    exit();
                 }
                 $arguments[$k] = $v['default'];
             }
