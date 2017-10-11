@@ -2,10 +2,10 @@
 
 namespace Swolf\Core\Server;
 
-use Swolf\Interfaces\MessageHandler;
-use Swoole\WebSocket\Server;
-use Swolf\Container\Resource;
-use Swolf\Interfaces\RequestHandler;
+use Swolf\Core\Interfaces\MessageHandler;
+use Swoole\Core\WebSocket\Server;
+use Swolf\Core\Container\Resource;
+use Swolf\Core\Interfaces\RequestHandler;
 
 class WebsocketServer extends BasicServer
 {

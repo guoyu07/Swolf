@@ -2,9 +2,9 @@
 
 namespace Swolf\Core\Server;
 
-use Swolf\Container\Resource;
+use Swolf\Core\Container\Resource;
 use Swoole\Http\Server as SwooleHttpServer;
-use Swolf\Interfaces\RequestHandler;
+use Swolf\Core\Interfaces\RequestHandler;
 
 class HttpServer extends BasicServer
 {

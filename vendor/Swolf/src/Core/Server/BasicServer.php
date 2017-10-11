@@ -2,27 +2,27 @@
 
 namespace Swolf\Core\Server;
 
-use Swolf\Container\Resource;
+use Swolf\Core\Container\Resource;
 use Swoole\Server as SwooleServer;
-use Swolf\Interfaces\WorkerStopHandler;
-use Swolf\Interfaces\WorkerStartHandler;
-use Swolf\Interfaces\WorkerErrorHandler;
-use Swolf\Interfaces\TimerHandler;
-use Swolf\Interfaces\TaskHandler;
-use Swolf\Interfaces\TaskFinishHandler;
-use Swolf\Interfaces\StartHandler;
-use Swolf\Interfaces\ShutdownHandler;
-use Swolf\Interfaces\Process;
+use Swolf\Core\Interfaces\WorkerStopHandler;
+use Swolf\Core\Interfaces\WorkerStartHandler;
+use Swolf\Core\Interfaces\WorkerErrorHandler;
+use Swolf\Core\Interfaces\TimerHandler;
+use Swolf\Core\Interfaces\TaskHandler;
+use Swolf\Core\Interfaces\TaskFinishHandler;
+use Swolf\Core\Interfaces\StartHandler;
+use Swolf\Core\Interfaces\ShutdownHandler;
+use Swolf\Core\Interfaces\Process;
 use Swoole\Process as SwooleProcess;
-use Swolf\Interfaces\BufferEmptyHandler;
-use Swolf\Interfaces\BufferFullHandler;
-use Swolf\Interfaces\CloseHandler;
-use Swolf\Interfaces\ConnectHandler;
-use Swolf\Interfaces\ManagerStartHandler;
-use Swolf\Interfaces\ManagerStopHandler;
-use Swolf\Interfaces\PacketHandler;
-use Swolf\Interfaces\PipeMessageHandler;
-use Swolf\Interfaces\ReceiveHandler;
+use Swolf\Core\Interfaces\BufferEmptyHandler;
+use Swolf\Core\Interfaces\BufferFullHandler;
+use Swolf\Core\Interfaces\CloseHandler;
+use Swolf\Core\Interfaces\ConnectHandler;
+use Swolf\Core\Interfaces\ManagerStartHandler;
+use Swolf\Core\Interfaces\ManagerStopHandler;
+use Swolf\Core\Interfaces\PacketHandler;
+use Swolf\Core\Interfaces\PipeMessageHandler;
+use Swolf\Core\Interfaces\ReceiveHandler;
 
 class BasicServer
 {
