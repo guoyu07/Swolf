@@ -2,9 +2,9 @@
 
 namespace App\Handler\WorkerStartHandler;
 
-use Swolf\Interfaces\WorkerStartHandler;
+use Swolf\Core\Interfaces\WorkerStartHandler;
 use App\Config\DatabaseConfig;
-use Swolf\Container\Container;
+use Swolf\Core\Container\Resource;
 use Swoole\Server;
 
 class InitDatabaseConnection implements WorkerStartHandler
@@ -18,6 +18,6 @@ class InitDatabaseConnection implements WorkerStartHandler
             DatabaseConfig::$db['username'],
             DatabaseConfig::$db['password']
         );
-        Container::register('db', $pdo);
+        Resource::register('db', $pdo);
     }
 }

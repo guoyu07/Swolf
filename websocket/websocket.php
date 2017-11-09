@@ -2,8 +2,8 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use Swolf\Server\WebsocketServer;
-use Swolf\Command\Parser;
+use Swolf\Core\Server\WebsocketServer;
+use Swolf\Component\Command\Parser;
 use App\Process\Monitor;
 use App\Handler\WorkerStartHandler\InitDatabaseConnection;
 use App\Handler\RequestHandler\HttpHandler;

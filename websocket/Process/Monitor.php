@@ -1,8 +1,8 @@
 <?php
 namespace App\Process;
 
-use Swolf\Container\Resource;
-use Swolf\Interfaces\Process;
+use Swolf\Core\Container\Resource;
+use Swolf\Core\Interfaces\Process;
 use Swoole\Process as SwooleProcess;
 
 class Monitor implements Process

@@ -1,6 +1,6 @@
 <?php
 
-use Swolf\Router\Router;
+use Swolf\Component\Router\Router;
 
 Router::get('/', function () {
     return 'hello world';

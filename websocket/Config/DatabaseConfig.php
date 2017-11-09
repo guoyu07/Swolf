@@ -5,9 +5,9 @@ class DatabaseConfig
 {
 
     public static $db = [
-        'host' => '172.17.0.3',
+        'host' => '192.168.0.1s',
         'username' => 'root',
-        'password' => 'chenchao',
-        'database' => 'test',
+        'password' => '',
+        'database' => 'user',
     ];
 }

@@ -2,7 +2,7 @@
 
 namespace App\Handler\ReceiveHandler;
 
-use Swolf\Interfaces\ReceiveHandler;
+use Swolf\Core\Interfaces\ReceiveHandler;
 use Swoole\Server;
 
 class EchoMsg implements ReceiveHandler
