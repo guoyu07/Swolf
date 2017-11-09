@@ -3,7 +3,7 @@ namespace App\Handler\TaskHandler;
 
 use Swolf\Core\Interfaces\TaskHandler;
 use Swoole\Server;
-use Swolf\Container\Container;
+use Swolf\Core\Container\Resource;
 
 class InsertData implements TaskHandler
 {
@@ -12,7 +12,7 @@ class InsertData implements TaskHandler
         /**
          * @var \PDO $db
          */
-        $db = Container::get('db');
+        $db = Resource::get('db');
 
         $stmt = $db->prepare('INSERT INTO user (name,age) VALUES (?,?)');
         $stmt->bindParam(1, $name);
