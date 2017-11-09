@@ -2,7 +2,7 @@
 
 namespace App\Handler\MessageHandler;
 
-use Swolf\Interfaces\MessageHandler;
+use Swolf\Core\Interfaces\MessageHandler;
 use Swoole\Server;
 use Swoole\WebSocket\Frame;
 

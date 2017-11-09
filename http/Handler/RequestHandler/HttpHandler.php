@@ -1,7 +1,7 @@
 <?php
 namespace App\Handler\RequestHandler;
 
-use Swolf\Interfaces\RequestHandler;
+use Swolf\Core\Interfaces\RequestHandler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swolf\Handler\RequestHandler\HttpBaseHandler;

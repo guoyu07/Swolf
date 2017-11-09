@@ -1,7 +1,7 @@
 <?php
 namespace App\Handler\TaskHandler;
 
-use Swolf\Interfaces\TaskHandler;
+use Swolf\Core\Interfaces\TaskHandler;
 use Swoole\Server;
 use Swolf\Container\Container;
 

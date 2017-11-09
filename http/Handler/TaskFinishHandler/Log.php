@@ -2,7 +2,7 @@
 
 namespace App\Handler\TaskFinishHandler;
 
-use Swolf\Interfaces\TaskFinishHandler;
+use Swolf\Core\Interfaces\TaskFinishHandler;
 use Swoole\Server;
 
 class Log implements TaskFinishHandler
