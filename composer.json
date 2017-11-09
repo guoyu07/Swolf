@@ -1,0 +1,16 @@
+{
+  "name": "chenqinghe/swolf",
+  "homepage": "http://docs.swolf.org",
+  "description": "framework based on swoole",
+  "authors": [
+    {
+      "name": "chenchao",
+      "email": "chenqh721@foxmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Swolf\\": "src"
+    }
+  }
+}
