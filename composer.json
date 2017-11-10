@@ -1,6 +1,6 @@
 {
   "name": "chenqinghe/swolf",
-  "homepage": "http://docs.swolf.org",
+  "homepage": "http://docs.swolf.org",  
   "description": "framework based on swoole",
   "authors": [
     {
