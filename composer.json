@@ -4,13 +4,14 @@
   "description": "framework based on swoole",
   "authors": [
     {
-      "name": "chenchao",
+      "name": "chenqinghe",
       "email": "chenqh721@foxmail.com"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Swolf\\": "src"
+      "Swolf\\": "system",
+      "App\\": "application"
     }
   }
 }
