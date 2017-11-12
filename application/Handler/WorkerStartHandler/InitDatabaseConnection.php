@@ -12,11 +12,11 @@ class InitDatabaseConnection implements WorkerStartHandler
     public function onWorkerStart(Server $server, $worker_id)
     {
         //初始化数据库连接,并注册至资源容器中
-        $dsn = sprintf('mysql:host=%s;dbname=%s', Database::$db['host'], Database::$db['database']);
+        $dsn = sprintf('mysql:host=%s;dbname=%s', Database::$db['default']['host'], Database::$db['default']['database']);
         $pdo = new \PDO(
             $dsn,
-            Database::$db['username'],
-            Database::$db['password']
+            Database::$db['default']['username'],
+            Database::$db['default']['password']
         );
         Resource::register('db', $pdo);
     }

@@ -64,7 +64,7 @@ class Server
         'max_conn' => 10000,
 
         //加入此参数后，执行php server.php将转入后台作为守护进程运行
-        'daemonize' => 1,
+        'daemonize' => 0,
 
         //启用CPU亲和设置
         'open_cpu_affinity' => 1,

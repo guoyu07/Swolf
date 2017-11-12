@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Swolf\\' => array($baseDir . '/system'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Inhere\\Console\\' => array($vendorDir . '/inhere/console/src'),
     'App\\' => array($baseDir . '/application'),
 );

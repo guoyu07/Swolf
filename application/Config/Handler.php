@@ -13,6 +13,7 @@ class Handler
     public static $handler = [
         'RequestHandler' => 'App\\Handler\\RequestHandler\\HttpHandler',
         'TaskHandler' => 'App\\Handler\\TaskHandler\\Statistic',
+        'WorkerStartHandler' => 'App\Handler\WorkerStartHandler\\InitDatabaseConnection',
     ];
 
 }

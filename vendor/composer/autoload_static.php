@@ -11,6 +11,18 @@ class ComposerStaticInita2766e4ad0648214a85008f76a3e4eca
         array (
             'Swolf\\' => 6,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
+        'I' => 
+        array (
+            'Inhere\\Console\\' => 15,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -21,6 +33,18 @@ class ComposerStaticInita2766e4ad0648214a85008f76a3e4eca
         'Swolf\\' => 
         array (
             0 => __DIR__ . '/../..' . '/system',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Inhere\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/inhere/console/src',
         ),
         'App\\' => 
         array (

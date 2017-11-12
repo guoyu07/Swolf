@@ -7,10 +7,10 @@ class Database
 
     public static $db = [
         'default' => [
-            'host' => '192.168.0.1',
+            'host' => '127.0.0.1',
             'username' => 'root',
-            'password' => '',
-            'database' => 'user',
+            'password' => 'chenchao',
+            'database' => 'mysql',
         ],
     ];
 }

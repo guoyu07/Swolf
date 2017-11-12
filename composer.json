@@ -13,5 +13,9 @@
       "Swolf\\": "system",
       "App\\": "application"
     }
+  },
+  "require": {
+    "inhere/console": "dev-master",
+    "monolog/monolog": "*"
   }
 }
