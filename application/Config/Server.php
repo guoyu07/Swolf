@@ -19,6 +19,12 @@ class Server
 
     public static $setting = [
 
+        //应用名称
+        'app_name' => 'Swolf demo',
+
+        //应用版本
+        'app_version' => '0.1.0',
+
         //监听的地址
         'host' => '127.0.0.1',
 
