@@ -35,17 +35,19 @@ switch (Server::$serverType) {
 $app->init(Server::$setting);
 
 foreach (Handler::$handler as $k => $v) {
+    echo $v . ' handler set successfully' . "\n";
     $handler = new $v;
     call_user_func_array([$app, 'set' . $k], [$handler]);
 }
 
 foreach (Process::$process as $v) {
+    echo $v . ' process start.' . "\n";
     $p = new $v;
     $app->addProcess($p);
 }
 
 printf("\n\n");
-printf("server is running at %s:%d", $host, $port);
+printf("server is running at %s:%d\n", $host, $port);
 
 $app->run();
 

@@ -1,1 +1,3 @@
 .idea/*
+vendor/*
+application/Config/Database.php
