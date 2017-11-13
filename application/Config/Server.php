@@ -25,6 +25,9 @@ class Server
         //应用版本
         'app_version' => '0.1.0',
 
+        //应用密钥，jwt认证使用
+        'app_secret' => 'asfsdggegr3t2FQAfgwqasd',
+
         //监听的地址
         'host' => '127.0.0.1',
 
@@ -70,7 +73,7 @@ class Server
         'max_conn' => 10000,
 
         //加入此参数后，执行php server.php将转入后台作为守护进程运行
-        'daemonize' => 1,
+        'daemonize' => 0,
 
         //启用CPU亲和设置
         'open_cpu_affinity' => 1,
