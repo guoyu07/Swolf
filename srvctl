@@ -37,35 +37,35 @@ $app->command('start', function (Input $in, Output $out) {
 
     switch (Server::$serverType) {
         case Server::TCP_SERVER:
-            $app = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
             break;
         case Server::UDP_SERVER:
-            $app = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
             break;
         case Server::WEBSOCKET_SERVER:
-            $app = new WebsocketServer($host, $port);
+            $server = new WebsocketServer($host, $port);
             break;
         default:
-            $app = new HttpServer($host, $port);
+            $server = new HttpServer($host, $port);
     }
 
-    $app->init(Server::$setting);
+    $server->init(Server::$setting);
 
     foreach (Handler::$handler as $k => $v) {
         $out->info($v . ' set successfully');
         $handler = new $v;
-        call_user_func_array([$app, 'set' . $k], [$handler]);
+        call_user_func_array([$server, 'set' . $k], [$handler]);
     }
 
     foreach (Process::$process as $v) {
         $out->info($v . ' process start');
         $p = new $v;
-        $app->addProcess($p);
+        $server->addProcess($p);
     }
 
     $out->info('server is runnint at ' . $host . ':' . $port);
 
-    $app->run();
+    $server->run();
 
 
 }, 'start application');
@@ -78,20 +78,15 @@ $app->command('restart', function (Input $in, Output $out) {
 
 $app->command('stop', function (Input $in, Output $out) {
 
-    $command = sprintf('ps aux|grep %s|grep -v grep|head -1|awk \'{print $2}\'|xargs kill -9', Server::$setting['app_name']);
-    echo $command;
-    $fd = popen($command, 'r');
-    pclose($fd);
+    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|head -1|awk \'{print $2}\'|xargs kill ', Server::$setting['app_name']);
+    system($command);
     $out->info('server status....stop');
 
 }, 'stop application');
 
 $app->command('status', function (Input $in, Output $out) {
-    $command = sprintf('ps aux|grep %s|grep -v grep|wc -l', Server::$setting['app_name']);
-    echo $command;
-    $fd = popen($command, 'r');
-    $content = fread($fd, 128);
-    $processnum = intval($content);
+    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|wc -l', Server::$setting['app_name']);
+    $processnum = system($command);
     if ($processnum > 0) {
         $out->info('server is running.');
     } else {

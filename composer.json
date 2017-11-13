@@ -1,5 +1,5 @@
 {
-  "name": "chenqinghe/swolf",
+  "name": "php-swolf/swolf",
   "homepage": "http://docs.swolf.org",
   "description": "framework based on swoole",
   "authors": [
@@ -16,6 +16,7 @@
   },
   "require": {
     "inhere/console": "dev-master",
-    "monolog/monolog": "*"
+    "monolog/monolog": "*",
+    "lcobucci/jwt": "*"
   }
 }
