@@ -78,11 +78,11 @@ $app->command('restart', function (Input $in, Output $out) {
 
 $app->command('stop', function (Input $in, Output $out) {
 
-    $command = sprintf('ps aux|grep %s|head -1|awk \'{print $2}\'|xargs kill -9', Server::$setting['app_name']);
+    $command = sprintf('ps aux|grep %s|grep -v grep|head -1|awk \'{print $2}\'|xargs kill -9', Server::$setting['app_name']);
     echo $command;
     $fd = popen($command, 'r');
     pclose($fd);
-    $out->info('server status???? stop');
+    $out->info('server status....stop');
 
 }, 'stop application');
 
@@ -93,7 +93,7 @@ $app->command('status', function (Input $in, Output $out) {
     $content = fread($fd, 128);
     $processnum = intval($content);
     if ($processnum > 0) {
-        $out->info('server is runnint.');
+        $out->info('server is running.');
     } else {
         $out->info('server is shutdown');
     }
