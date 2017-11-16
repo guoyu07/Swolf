@@ -1,0 +1,97 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Inhere\Console\IO\Input;
+use Inhere\Console\IO\Output;
+use Inhere\Console\Application;
+
+use App\Config\Handler;
+use App\Config\Server;
+use App\Config\Process;
+use Swolf\Core\Server\HttpServer;
+use Swolf\Core\Server\WebsocketServer;
+use Swolf\Core\Server\BasicServer;
+
+$meta = [
+    'name' => Server::$setting['app_name'],
+    'version' => Server::$setting['app_version'],
+];
+$input = new Input;
+$output = new Output;
+$app = new Application($meta, $input, $output);
+
+$app->command('start', function (Input $in, Output $out) {
+    $host = $in->getRequiredArg('host');
+    $port = $in->getRequiredArg('port');
+
+    if (function_exists('cli_set_process_title')) {
+        cli_set_process_title(Server::$setting['app_name']);
+    } else {
+        swoole_set_process_name(Server::$setting['app_name']);
+    }
+
+    empty($host) && $host = Server::$setting['host'];
+    empty($port) && $port = Server::$setting['port'];
+
+
+    switch (Server::$serverType) {
+        case Server::TCP_SERVER:
+            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+            break;
+        case Server::UDP_SERVER:
+            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+            break;
+        case Server::WEBSOCKET_SERVER:
+            $server = new WebsocketServer($host, $port);
+            break;
+        default:
+            $server = new HttpServer($host, $port);
+    }
+
+    $server->init(Server::$setting);
+
+    foreach (Handler::$handler as $k => $v) {
+        $out->info($v . ' set successfully');
+        $handler = new $v;
+        call_user_func_array([$server, 'set' . $k], [$handler]);
+    }
+
+    foreach (Process::$process as $v) {
+        $out->info($v . ' process start');
+        $p = new $v;
+        $server->addProcess($p);
+    }
+
+    $out->info('server is runnint at ' . $host . ':' . $port);
+
+    $server->run();
+
+
+}, 'start application');
+
+
+$app->command('restart', function (Input $in, Output $out) {
+
+}, 'restart application');
+
+
+$app->command('stop', function (Input $in, Output $out) {
+
+    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|head -1|awk \'{print $2}\'|xargs kill ', Server::$setting['app_name']);
+    system($command);
+    $out->info('server status....stop');
+
+}, 'stop application');
+
+$app->command('status', function (Input $in, Output $out) {
+    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|wc -l', Server::$setting['app_name']);
+    $processnum = system($command);
+    if ($processnum > 0) {
+        $out->info('server is running.');
+    } else {
+        $out->info('server is shutdown');
+    }
+}, 'show status of applicaiton');
+
+$app->run();

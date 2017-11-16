@@ -1,16 +1,22 @@
 {
-  "name": "chenqinghe/swolf",
-  "homepage": "http://docs.swolf.org",  
+  "name": "php-swolf/swolf",
+  "homepage": "http://docs.swolf.org",
   "description": "framework based on swoole",
   "authors": [
     {
-      "name": "chenchao",
+      "name": "chenqinghe",
       "email": "chenqh721@foxmail.com"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Swolf\\": "src"
+      "Swolf\\": "system",
+      "App\\": "application"
     }
+  },
+  "require": {
+    "inhere/console": "dev-master",
+    "monolog/monolog": "*",
+    "lcobucci/jwt": "*"
   }
 }
