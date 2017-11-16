@@ -11,10 +11,10 @@ namespace App\Controller;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-class Index
+class Hello
 {
 
-    public function index(Request $request, Response $response)
+    public function sayHello(Request $request, Response $response)
     {
         $name = $request->get['name'];
 
