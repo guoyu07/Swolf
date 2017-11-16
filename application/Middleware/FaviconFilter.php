@@ -16,7 +16,7 @@ class FaviconFilter implements Middleware
 {
     public function handle(Request $request, Response $response, \Closure $next)
     {
-        echo 'favicon' . "\n";
+//        echo 'favicon' . "\n";
         if ($request->server['request_uri'] == '/favicon.ico') {
             $response->status(404);
             $response->end();

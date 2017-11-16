@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Handler\RequestHandler;
+namespace Swolf\Handler\RequestHandler;
 
+use Swolf\Core\Container\IO;
 use Swolf\Core\Interfaces\RequestHandler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
-use Swolf\Handler\RequestHandler\HttpBaseHandler;
 use App\Config\Middleware;
 use Swolf\Component\Middleware\Middleware as MiddlewareInterface;
+use Swolf\Component\Http\Interfaces\Response as ResponseInterface;
 
 
-class HttpHandler extends HttpBaseHandler implements RequestHandler
+class HttpHandler implements RequestHandler
 {
 
     protected $closure;
@@ -22,8 +23,32 @@ class HttpHandler extends HttpBaseHandler implements RequestHandler
             $req = $this->parseRequest($request);
             $method = $req->method;
             $class = $req->class;
+            try {
+                $object = new $class;
+            } catch (\Exception $exception) {
+                $response->status(404);
+                return 404;
+            }
+            if (!method_exists($object, $method)) {
+                $response->status(404);
+                return 404;
+            }
+            $resp = call_user_func([$object, $method], $request);
+            if (!$resp instanceof ResponseInterface) {
+                IO::output()->error('service method must return interface response, but ' . gettype($resp) . ' was returned.');
+                $response->status(500);
+                $response->end('Internal Server Error.');
+                return 500;
+            }
 
-            return (new $class)->$method($request, $response);
+            $ret = [
+                'RET' => $resp->getCode(),
+                'DATA' => $resp->getData(),
+                'MESSAGE' => $resp->getMessage(),
+            ];
+            $response->header('Content-Type', 'application/json');
+            $response->end(json_encode($ret));
+            return 200;
         };
 
         foreach (array_reverse(Middleware::$http) as $v) {
@@ -40,32 +65,32 @@ class HttpHandler extends HttpBaseHandler implements RequestHandler
 
     public function onRequest(Request $request, Response $response)
     {
-        call_user_func_array($this->closure, [$request, $response]);
+        call_user_func($this->closure, $request, $response);
     }
 
     public function parseRequest(Request $request)
     {
+        $resp = new \stdClass();
         $uri = $request->server['request_uri'];
-        $segs = explode('/', $uri);
-        if (count($segs) < 1) {
-            $method = 'index';
-            $class = 'App\\Controller\\Index';
-            goto RET;
-        }
-        if (count($segs) < 2) {
-            $method = 'index';
-            $class = ucfirst($segs[0]);
-            goto RET;
-        }
-        $method = $segs[count($segs) - 1];
-        unset($segs[count($segs) - 1]);
-        $class = implode('', $segs);
 
-        RET:
-        $std = new \stdClass();
-        $std->method = $method;
-        $std->class = 'App\\Controller\\' . ucfirst($class);
-        return $std;
+        $segs = explode('/', trim($uri, '/'));
+
+        switch ($num = count($segs)) {
+            case $num < 1:
+                $resp->method = 'index';
+                $resp->class = 'App\Controller\Index';
+                break;
+            case $num < 2:
+                $resp->method = 'index';
+                $resp->class = 'App\Controller\\' . ucfirst($segs[0]);
+                break;
+            default:
+                $last = $num - 1;
+                $resp->method = $segs[$last];
+                unset($segs[$last]);
+                $resp->class = 'App\Controller\\' . ucfirst(implode('\\', $segs));
+        }
+        return $resp;
     }
 
 

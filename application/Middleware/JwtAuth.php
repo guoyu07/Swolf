@@ -16,7 +16,7 @@ class JwtAuth implements Middleware
 {
     public function handle(Request $request, Response $response, \Closure $next)
     {
-        echo 'jwt'."\n";
+//        echo 'jwt'."\n";
         return $next($request, $response);
     }
 }

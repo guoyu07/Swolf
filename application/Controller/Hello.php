@@ -9,16 +9,20 @@
 namespace App\Controller;
 
 use Swoole\Http\Request;
-use Swoole\Http\Response;
+use Swolf\Component\Http\Response\Response;
 
 class Hello
 {
 
-    public function sayHello(Request $request, Response $response)
+    public function sayHello(Request $request)
     {
-        $name = $request->get['name'];
+        $size = $request->post['size'];
 
-        $response->end('hello, ' . $name);
+        $sum = 0;
+        for ($i = 0; $i < $size; $i++) {
+            $sum += 3;
+        }
+        return new Response(0, $sum, 'ok');
     }
 
 

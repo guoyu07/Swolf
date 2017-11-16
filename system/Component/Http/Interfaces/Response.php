@@ -6,12 +6,10 @@
  * @Time: 16:32
  */
 
-namespace Swolf\Core\Interfaces\Http;
+namespace Swolf\Component\Http\Interfaces;
 
 interface Response
 {
-    
-    public function getStatus();
 
     public function getCode();
 
