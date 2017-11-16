@@ -20,7 +20,7 @@ class FaviconFilter implements Middleware
         if ($request->server['request_uri'] == '/favicon.ico') {
             $response->status(404);
             $response->end();
-            return;
+            return false;
         }
         return $next($request, $response);
     }

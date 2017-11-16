@@ -2,6 +2,8 @@
 
 namespace Swolf\Handler\RequestHandler;
 
+use App\Config\Routes;
+use DevLibs\Routing\Router;
 use Swolf\Core\Container\IO;
 use Swolf\Core\Interfaces\RequestHandler;
 use Swoole\Http\Request;
@@ -14,26 +16,79 @@ use Swolf\Component\Http\Interfaces\Response as ResponseInterface;
 class HttpHandler implements RequestHandler
 {
 
-    protected $closure;
+
+    /**
+     * @var callable
+     */
+    protected $requestHandler;
+
+    /**
+     * @var Router
+     */
+    protected $router;
 
     public function __construct()
     {
-        $closure = function (Request $request, Response $response) {
+        $this->initRouter();
 
-            $req = $this->parseRequest($request);
-            $method = $req->method;
-            $class = $req->class;
-            try {
-                $object = new $class;
-            } catch (\Exception $exception) {
+        $this->initMiddleware();
+    }
+
+
+    public function onRequest(Request $request, Response $response)
+    {
+        call_user_func($this->requestHandler, $request, $response);
+    }
+
+
+    public function initRouter()
+    {
+        $this->router = new Router();
+
+        foreach (Routes::$post as $path => $action) {
+            $paramArr = explode('@', $action);
+            if (count($paramArr) < 2) {
+                $method = 'index';
+            } else {
+                $method = $paramArr[1];
+            }
+            $class = $paramArr[0];
+            $classObject = new $class;
+            $this->router->post($path, [$classObject, $method]);
+        }
+    }
+
+
+    public function initMiddleware()
+    {
+        $requestHandler = $this->getRequestHandler();
+
+        foreach (array_reverse(Middleware::$http) as $middlewareClass) {
+            $middleware = new $middlewareClass;
+            if ($middleware instanceof MiddlewareInterface) {
+                $requestHandler = function (Request $request, Response $response) use ($middleware, $requestHandler) {
+                    $middleware->handle($request, $response, $requestHandler);
+                };
+            }
+        }
+        $this->requestHandler = $requestHandler;
+    }
+
+
+    private function getRequestHandler()
+    {
+        return function (Request $request, Response $response) {
+
+            $route = $this->route($request);
+
+            if (is_null($route)) {
                 $response->status(404);
+                $response->end('Not Found.');
                 return 404;
             }
-            if (!method_exists($object, $method)) {
-                $response->status(404);
-                return 404;
-            }
-            $resp = call_user_func([$object, $method], $request);
+
+            $resp = call_user_func($route->handler(), $request);
+
             if (!$resp instanceof ResponseInterface) {
                 IO::output()->error('service method must return interface response, but ' . gettype($resp) . ' was returned.');
                 $response->status(500);
@@ -50,47 +105,13 @@ class HttpHandler implements RequestHandler
             $response->end(json_encode($ret));
             return 200;
         };
-
-        foreach (array_reverse(Middleware::$http) as $v) {
-            $obj = new $v;
-            if ($obj instanceof MiddlewareInterface) {
-                $closure = function (Request $request, Response $response) use ($obj, $closure) {
-                    $obj->handle($request, $response, $closure);
-                };
-            }
-        }
-        $this->closure = $closure;
     }
 
 
-    public function onRequest(Request $request, Response $response)
+    public function route(Request $request)
     {
-        call_user_func($this->closure, $request, $response);
-    }
-
-    public function parseRequest(Request $request)
-    {
-        $resp = new \stdClass();
-        $uri = $request->server['request_uri'];
-
-        $segs = explode('/', trim($uri, '/'));
-
-        switch ($num = count($segs)) {
-            case $num < 1:
-                $resp->method = 'index';
-                $resp->class = 'App\Controller\Index';
-                break;
-            case $num < 2:
-                $resp->method = 'index';
-                $resp->class = 'App\Controller\\' . ucfirst($segs[0]);
-                break;
-            default:
-                $last = $num - 1;
-                $resp->method = $segs[$last];
-                unset($segs[$last]);
-                $resp->class = 'App\Controller\\' . ucfirst(implode('\\', $segs));
-        }
-        return $resp;
+        var_dump($request->server);
+        return $this->router->dispatch($request->server['request_method'], $request->server['request_uri']);
     }
 
 
