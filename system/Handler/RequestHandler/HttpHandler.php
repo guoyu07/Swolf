@@ -15,8 +15,6 @@ use Swolf\Component\Http\Interfaces\Response as ResponseInterface;
 
 class HttpHandler implements RequestHandler
 {
-
-
     /**
      * @var callable
      */
@@ -26,6 +24,7 @@ class HttpHandler implements RequestHandler
      * @var Router
      */
     protected $router;
+
 
     public function __construct()
     {
@@ -41,7 +40,7 @@ class HttpHandler implements RequestHandler
     }
 
 
-    public function initRouter()
+    private function initRouter()
     {
         $this->router = new Router();
 
@@ -59,7 +58,7 @@ class HttpHandler implements RequestHandler
     }
 
 
-    public function initMiddleware()
+    private function initMiddleware()
     {
         $requestHandler = $this->getRequestHandler();
 
@@ -75,7 +74,7 @@ class HttpHandler implements RequestHandler
     }
 
 
-    private function getRequestHandler()
+    protected function getRequestHandler()
     {
         return function (Request $request, Response $response) {
 
@@ -108,7 +107,7 @@ class HttpHandler implements RequestHandler
     }
 
 
-    public function route(Request $request)
+    protected function route(Request $request)
     {
         var_dump($request->server);
         return $this->router->dispatch($request->server['request_method'], $request->server['request_uri']);
