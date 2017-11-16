@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Process;
 
 use Swolf\Core\Container\Resource;
 use Swolf\Core\Interfaces\Process;
 use Swoole\Process as SwooleProcess;
+use Swolf\Core\Container\IO;
 
 class Monitor implements Process
 {
@@ -11,7 +13,7 @@ class Monitor implements Process
     {
         while (true) {
             $info = Resource::$server->stats();
-            printf("%s\n", json_encode($info));
+            IO::output()->info(json_encode($info));
             sleep(20);
         }
     }

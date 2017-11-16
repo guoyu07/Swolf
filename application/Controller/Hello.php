@@ -16,13 +16,9 @@ class Hello
 
     public function sayHello(Request $request)
     {
-        $size = $request->post['size'];
+        $name = $request->post['name'];
 
-        $sum = 0;
-        for ($i = 0; $i < $size; $i++) {
-            $sum += 3;
-        }
-        return new Response(0, $sum, 'ok');
+        return new Response(0, 'hello:' . $name, 'ok');
     }
 
 

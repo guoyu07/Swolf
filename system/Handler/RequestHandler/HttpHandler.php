@@ -42,7 +42,7 @@ class HttpHandler implements RequestHandler
             }
 
             $ret = [
-                'RET' => $resp->getCode(),
+                'CODE' => $resp->getCode(),
                 'DATA' => $resp->getData(),
                 'MESSAGE' => $resp->getMessage(),
             ];
