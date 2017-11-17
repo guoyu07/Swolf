@@ -9,8 +9,8 @@ use Swolf\Core\Interfaces\RequestHandler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use App\Config\Middleware;
-use Swolf\Component\Middleware\Middleware as MiddlewareInterface;
-use Swolf\Component\Http\Interfaces\Response as ResponseInterface;
+use Swolf\Component\Http\Middleware\MiddlewareInterface;
+use Swolf\Component\Http\Response\ResponseInterface;
 
 
 class HttpHandler implements RequestHandler

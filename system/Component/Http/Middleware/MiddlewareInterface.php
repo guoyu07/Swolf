@@ -11,7 +11,7 @@ namespace Swolf\Component\Http\Middleware;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-interface Middleware
+interface MiddlewareInterface
 {
     /**
      * @param Request $request
