@@ -13,7 +13,8 @@ class Monitor implements Process
     {
         while (true) {
             $info = Resource::$server->stats();
-            IO::output()->info(json_encode($info));
+            IO::output()->table([array_keys($info), array_values($info)], 'Server status');
+//            IO::output()->info(json_encode($info));
             sleep(20);
         }
     }

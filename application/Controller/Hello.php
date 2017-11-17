@@ -16,7 +16,7 @@ class Hello
 
     public function sayHello(Request $request)
     {
-        $name = $request->post['name'];
+        $name = $request->get['name'];
 
         return new Response(0, 'hello:' . $name, 'ok');
     }

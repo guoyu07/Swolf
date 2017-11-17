@@ -36,6 +36,7 @@ class HttpHandler implements RequestHandler
 
     public function onRequest(Request $request, Response $response)
     {
+        IO::output()->table([array_keys($request->server),array_values($request->server)]);
         call_user_func($this->requestHandler, $request, $response);
     }
 
@@ -44,7 +45,7 @@ class HttpHandler implements RequestHandler
     {
         $this->router = new Router();
 
-        foreach (Routes::$post as $path => $action) {
+        foreach (Routes::$get as $path => $action) {
             $paramArr = explode('@', $action);
             if (count($paramArr) < 2) {
                 $method = 'index';
@@ -53,7 +54,7 @@ class HttpHandler implements RequestHandler
             }
             $class = $paramArr[0];
             $classObject = new $class;
-            $this->router->post($path, [$classObject, $method]);
+            $this->router->get($path, [$classObject, $method]);
         }
     }
 
@@ -109,7 +110,6 @@ class HttpHandler implements RequestHandler
 
     protected function route(Request $request)
     {
-        var_dump($request->server);
         return $this->router->dispatch($request->server['request_method'], $request->server['request_uri']);
     }
 

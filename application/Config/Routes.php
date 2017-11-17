@@ -14,21 +14,4 @@ class Routes
         '/index' => 'App\\Controller\\Hello@sayHello'
     ];
 
-    public static $post = [
-        '/index' => 'App\\Controller\\Hello@sayHello'
-    ];
-
-
-    public static $put = [];
-
-    public static $head = [];
-
-    public static $options = [];
-
-
-    public static $group = [
-        ['method' => ['GET', 'POST'], 'path' => '/index', 'action' => 'App\\Controller\\Hello@sayHello'],
-    ];
-
-
 }
