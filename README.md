@@ -10,6 +10,10 @@ swolf is a micro-service framework based on swoole.
 - monitor
 - service statisitc
 
+# Require
+- [swoole](https://github.com/swoole/swoole-src) extension
+- php >= 7
+
 
 # Document
 [中文文档](https://docs.swolf.org)
