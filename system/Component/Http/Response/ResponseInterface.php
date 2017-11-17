@@ -6,9 +6,9 @@
  * @Time: 16:32
  */
 
-namespace Swolf\Component\Http\Interfaces;
+namespace Swolf\Component\Http\Response;
 
-interface Response
+interface ResponseInterface
 {
 
     public function getCode();

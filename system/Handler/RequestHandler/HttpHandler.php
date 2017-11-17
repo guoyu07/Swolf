@@ -36,7 +36,7 @@ class HttpHandler implements RequestHandler
 
     public function onRequest(Request $request, Response $response)
     {
-        IO::output()->table([array_keys($request->server),array_values($request->server)]);
+//        IO::output()->table([array_keys($request->server),array_values($request->server)]);
         call_user_func($this->requestHandler, $request, $response);
     }
 

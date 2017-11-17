@@ -8,8 +8,6 @@
 
 namespace Swolf\Component\Http\Response;
 
-use Swolf\Component\Http\Interfaces\Response as ResponseInterface;
-
 class Response implements ResponseInterface
 {
     protected $code, $data, $message;
@@ -51,4 +49,6 @@ class Response implements ResponseInterface
     {
         return $this->code;
     }
+
+
 }

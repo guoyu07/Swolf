@@ -6,7 +6,7 @@
  * @Time: 16:54
  */
 
-namespace Swolf\Component\Middleware;
+namespace Swolf\Component\Http\Middleware;
 
 use Swoole\Http\Request;
 use Swoole\Http\Response;
