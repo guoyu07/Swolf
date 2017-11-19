@@ -5,7 +5,7 @@ namespace Swolf\Handler\RequestHandler;
 use App\Config\Routes;
 use DevLibs\Routing\Router;
 use Swolf\Core\Container\IO;
-use Swolf\Core\Interfaces\RequestHandler;
+use Swolf\Core\Interfaces\Server\Handler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use App\Config\Middleware;
@@ -13,8 +13,10 @@ use Swolf\Component\Http\Middleware\MiddlewareInterface;
 use Swolf\Component\Http\Response\ResponseInterface;
 
 
-class HttpHandler implements RequestHandler
+class HttpHandler implements Handler
 {
+
+
     /**
      * @var callable
      */
@@ -34,10 +36,13 @@ class HttpHandler implements RequestHandler
     }
 
 
-    public function onRequest(Request $request, Response $response)
+    public function handleFunc(): callable
     {
-//        IO::output()->table([array_keys($request->server),array_values($request->server)]);
-        call_user_func($this->requestHandler, $request, $response);
+        return function (&$server) {
+            $server->on('request', function ($request, $response) {
+                call_user_func($this->requestHandler, $request, $response);
+            });
+        };
     }
 
 

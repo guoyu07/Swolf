@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Swolf\Core\Interfaces;
+namespace Swolf\Core\Interfaces\Server;
 
 use Swoole\Process as SwooleProcess;
 

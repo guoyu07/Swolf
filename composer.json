@@ -17,6 +17,7 @@
   "require": {
     "inhere/console": "dev-master",
     "monolog/monolog": "*",
-    "lcobucci/jwt": "*"
+    "lcobucci/jwt": "*",
+    "eaglewu/swoole-ide-helper": "dev-master"
   }
 }

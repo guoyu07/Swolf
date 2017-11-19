@@ -22,8 +22,10 @@ $output = new Output;
 $app = new Application($meta, $input, $output);
 
 $app->command('start', function (Input $in, Output $out) {
-    $host = $in->getRequiredArg('host');
-    $port = $in->getRequiredArg('port');
+
+    $host = $in->getRequiredOpt('h');
+    $port = $in->getRequiredOpt('p');
+    $daemon = $in->getOption('d');
 
     if (function_exists('cli_set_process_title')) {
         cli_set_process_title(Server::$setting['app_name']);
@@ -72,6 +74,7 @@ $app->command('start', function (Input $in, Output $out) {
 
 
 $app->command('restart', function (Input $in, Output $out) {
+
 
 }, 'restart application');
 

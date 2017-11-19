@@ -13,7 +13,19 @@ class Server
     /**
      * @var \Swolf\Core\Server\BasicServer
      */
-    public static $instance = null;
+    protected static $instance = null;
+
+
+    public static function register($server)
+    {
+        self::$instance = $server;
+    }
+
+
+    public static function task()
+    {
+
+    }
 
 
     public static function __callStatic($name, $arguments)
