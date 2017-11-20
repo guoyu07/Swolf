@@ -18,6 +18,7 @@
     "inhere/console": "dev-master",
     "monolog/monolog": "*",
     "lcobucci/jwt": "*",
-    "eaglewu/swoole-ide-helper": "dev-master"
+    "eaglewu/swoole-ide-helper": "dev-master",
+    "devlibs/routing": "1.0.0"
   }
 }
