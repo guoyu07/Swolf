@@ -8,8 +8,10 @@
 
 namespace Swolf\Core\Server;
 
-
-use Swolf\Core\Interfaces\Server\Config\Config;
+use Swoole\Server as SwooleServer;
+use Swoole\Http\Server as HttpServer;
+use Swoole\WebSocket\Server as WebsocketServer;
+use Swolf\Core\Interfaces\Server\Config\Server as ServerConfig;
 
 class ServerFactory
 {
@@ -20,14 +22,34 @@ class ServerFactory
 
 
     /**
-     * @param $servername
-     * @param Config $serverconfig
+     * @param ServerConfig $serverConfig
      * @return Server
      */
-    public static function instance(Config $serverconfig)
+    public static function instance(ServerConfig $serverConfig)
     {
-        $server = new \Swoole\Http\Server('127.0.0.1', 9501);
-        return new Server($server);
+        switch ($serverConfig->getServerType()) {
+            case 'tcp':
+                $server = new SwooleServer($serverConfig->getHost(), $serverConfig->getPort(), SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+                break;
+            case 'udp':
+                $server = new SwooleServer($serverConfig->getHost(), $serverConfig->getPort(), SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+                break;
+            case 'websocket':
+                $server = new WebsocketServer($serverConfig->getHost(), $serverConfig->getPort());
+                break;
+            default://http
+                $server = new HttpServer($serverConfig->getHost(), $serverConfig->getPort());
+
+        }
+//        return new Server($server);
+        $serverInstance = new Server($server);
+
+        $serverInstance->init($serverConfig->getInitSettings());
+
+        $serverInstance->addProcess();
+
+        $serverInstance->setHandler();
+
     }
 
 

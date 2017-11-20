@@ -34,6 +34,9 @@ class Server
         //监听的端口
         'port' => 9501,
 
+        //master进程pid文件
+        'pid_file' => '/var/run/swolf.pid',
+
         //通过此参数来调节poll线程的数量，以充分利用多核
         'reactor_num' => 2,
 

@@ -8,14 +8,25 @@
 
 namespace App\Handler\TaskHandler;
 
-use Swolf\Core\Interfaces\TaskHandler;
+use Swolf\Core\Interfaces\Server\Handler;
 use Swoole\Server;
 
-class Statistic implements TaskHandler
+class Statistic implements Handler
 {
-    public function onTask(Server $serv, $task_id, $src_worker_id, $data)
-    {
 
+    public function handlerType(): int
+    {
+        return self::Task;
+    }
+
+
+    public function handleFunc(): callable
+    {
+        return function (Server &$server) {
+            $server->on('task', function (Server $serv, $task_id, $src_worker_id, $data) {
+                var_dump($serv, $task_id, $src_worker_id, $data);
+            });
+        };
     }
 
 }

@@ -9,8 +9,9 @@
 namespace Swolf\Core\Server;
 
 use Swolf\Core\Interfaces\Server\Process;
-use Swoole\Process as SwooleProcess;
 use Swolf\Core\Interfaces\Server\Handler;
+use Swoole\Process as SwooleProcess;
+use Swoole\Server as SwooleServer;
 
 
 class Server
@@ -22,7 +23,7 @@ class Server
     private $server;
 
 
-    public function __construct($server)
+    public function __construct(SwooleServer $server)
     {
         $this->server = $server;
     }

@@ -2,22 +2,32 @@
 
 namespace App\Handler\WorkerStartHandler;
 
-use Swolf\Core\Interfaces\WorkerStartHandler;
+use Swolf\Core\Interfaces\Server\Handler;
 use App\Config\Database;
 use Swolf\Core\Container\Resource;
 use Swoole\Server;
 
-class InitDatabaseConnection implements WorkerStartHandler
+class InitDatabaseConnection implements Handler
 {
-    public function onWorkerStart(Server $server, $worker_id)
+
+    public function handlerType(): int
     {
-        //初始化数据库连接,并注册至资源容器中
-        $dsn = sprintf('mysql:host=%s;dbname=%s', Database::$db['default']['host'], Database::$db['default']['database']);
-        $pdo = new \PDO(
-            $dsn,
-            Database::$db['default']['username'],
-            Database::$db['default']['password']
-        );
-        Resource::register('db', $pdo);
+        return self::WorkerStart;
+    }
+
+    public function handleFunc(): callable
+    {
+        return function (Server &$server) {
+            $server->on('workerstart', function (Server $server, $worker_id) {
+                //init database connection, and register the connection to resource container.
+                $dsn = sprintf('mysql:host=%s;dbname=%s', Database::$db['default']['host'], Database::$db['default']['database']);
+                $pdo = new \PDO(
+                    $dsn,
+                    Database::$db['default']['username'],
+                    Database::$db['default']['password']
+                );
+                Resource::register('db', $pdo);
+            });
+        };
     }
 }

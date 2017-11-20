@@ -9,9 +9,7 @@ use Inhere\Console\Application;
 use App\Config\Handler;
 use App\Config\Server;
 use App\Config\Process;
-use Swolf\Core\Server\HttpServer;
-use Swolf\Core\Server\WebsocketServer;
-use Swolf\Core\Server\BasicServer;
+use Swolf\Core\Server\ServerFactory;
 
 $meta = [
     'name' => Server::$setting['app_name'],
@@ -21,11 +19,22 @@ $input = new Input;
 $output = new Output;
 $app = new Application($meta, $input, $output);
 
+
+/**
+ * the priority of server's settings is:
+ *      cli > config > default
+ * which means if the commandline options is set and
+ * different with config file, the options pointed by config file
+ * will be override by commandline options.
+ * if neither commandline or config file pointed required options,
+ * the default value will be used.
+ *
+ */
 $app->command('start', function (Input $in, Output $out) {
 
-    $host = $in->getRequiredOpt('h');
-    $port = $in->getRequiredOpt('p');
-    $daemon = $in->getOption('d');
+    $host = $in->getOption('h');
+    $port = $in->getOption('p');
+    $daemon = $in->getBoolOpt('d');
 
     if (function_exists('cli_set_process_title')) {
         cli_set_process_title(Server::$setting['app_name']);
@@ -33,42 +42,11 @@ $app->command('start', function (Input $in, Output $out) {
         swoole_set_process_name(Server::$setting['app_name']);
     }
 
-    empty($host) && $host = Server::$setting['host'];
-    empty($port) && $port = Server::$setting['port'];
+    $serverConfig = new Server();
 
-
-    switch (Server::$serverType) {
-        case Server::TCP_SERVER:
-            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
-            break;
-        case Server::UDP_SERVER:
-            $server = new BasicServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
-            break;
-        case Server::WEBSOCKET_SERVER:
-            $server = new WebsocketServer($host, $port);
-            break;
-        default:
-            $server = new HttpServer($host, $port);
-    }
-
-    $server->init(Server::$setting);
-
-    foreach (Handler::$handler as $k => $v) {
-        $out->info($v . ' set successfully');
-        $handler = new $v;
-        call_user_func_array([$server, 'set' . $k], [$handler]);
-    }
-
-    foreach (Process::$process as $v) {
-        $out->info($v . ' process start');
-        $p = new $v;
-        $server->addProcess($p);
-    }
-
-    $out->info('server is runnint at ' . $host . ':' . $port);
+    $server = ServerFactory::instance($serverConfig);
 
     $server->run();
-
 
 }, 'start application');
 
@@ -81,9 +59,16 @@ $app->command('restart', function (Input $in, Output $out) {
 
 $app->command('stop', function (Input $in, Output $out) {
 
-    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|head -1|awk \'{print $2}\'|xargs kill ', Server::$setting['app_name']);
-    system($command);
-    $out->info('server status....stop');
+
+    if (!file_exists())
+
+        $pid = file_get_contents(Server::$setting['pid_file']);
+
+    if (!posix_kill($pid, SIGKILL)) {
+        $out->error('can not stop process ' . $pid, true);
+    }
+
+    unlink(Server::$setting['pid_file']);
 
 }, 'stop application');
 
