@@ -80,7 +80,7 @@ interface Server
      *
      * @return bool
      */
-    public function deamonize(): bool;
+    public function deamonize(...$deamon): bool;
 
 
 }

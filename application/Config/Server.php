@@ -8,12 +8,83 @@
 
 namespace App\Config;
 
-class Server
+use Swolf\Core\Interfaces\Server\Config\Server as ServerConfigInterface;
+use Swoole\Mysql\Exception;
+
+class Server implements ServerConfigInterface
 {
-    const TCP_SERVER = 1;
-    const UDP_SERVER = 2;
-    const HTTP_SERVER = 3;
-    const WEBSOCKET_SERVER = 4;
+
+    protected $appName = '';
+
+
+    protected $appVersion = '1.0.0';
+
+
+    protected $deamonize = true;
+
+
+    protected $host = '127.0.0.1';
+
+
+    protected $port = 9501;
+
+
+    public function deamonize(...$deamon): bool
+    {
+        if (func_num_args() > 0) {
+            $this->deamonize = boolval(func_get_arg(0));
+            return true;
+        }
+        return $this->deamonize;
+    }
+
+
+    public function getHandlers(): array
+    {
+        // TODO: Implement getHandlers() method.
+    }
+
+
+    public function getPort(): int
+    {
+        return $this->port;
+    }
+
+    public function setPort(int $port): bool
+    {
+        if ($port > 65535 || $port <= 0) {
+            throw new \Exception('Invalid parameter port: out of allowed range.');
+        }
+        $this->port = $port;
+        return true;
+    }
+
+
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+
+    public function setHost(string $host): bool
+    {
+        if (!filter_var($host, FILTER_FLAG_IPV4)) {
+            throw new Exception('Invalid parameter host: not a valid address.');
+        }
+        $this->host = $host;
+        return true;
+    }
+
+    public function getServerType(): int
+    {
+        // TODO: Implement getServerType() method.
+    }
+
+
+    public function getVersion(): string
+    {
+        // TODO: Implement getVersion() method.
+    }
 
     public static $serverType = self::HTTP_SERVER;
 

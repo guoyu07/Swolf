@@ -5,10 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
-
-use App\Config\Handler;
-use App\Config\Server;
-use App\Config\Process;
+use App\Config\Server as ServerConfig;
 use Swolf\Core\Server\ServerFactory;
 
 $meta = [
@@ -42,7 +39,11 @@ $app->command('start', function (Input $in, Output $out) {
         swoole_set_process_name(Server::$setting['app_name']);
     }
 
-    $serverConfig = new Server();
+    $serverConfig = new ServerConfig();
+
+    $serverConfig->setHost($host);
+    $serverConfig->setPort($port);
+    $serverConfig->deamonize($daemon);
 
     $server = ServerFactory::instance($serverConfig);
 
