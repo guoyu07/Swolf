@@ -11,7 +11,8 @@
   "autoload": {
     "psr-4": {
       "Swolf\\": "system",
-      "App\\": "application"
+      "App\\": "application",
+      "Test\\": "tests"
     }
   },
   "require": {
@@ -19,6 +20,7 @@
     "monolog/monolog": "*",
     "lcobucci/jwt": "*",
     "eaglewu/swoole-ide-helper": "dev-master",
-    "devlibs/routing": "1.0.0"
+    "devlibs/routing": "1.0.0",
+    "phpunit/phpunit": "^6.4"
   }
 }
