@@ -3,13 +3,13 @@
 namespace App\Process;
 
 use Swolf\Core\Container\Resource;
-use Swolf\Core\Interfaces\Process;
+use Swolf\Core\Server\Process;
 use Swoole\Process as SwooleProcess;
 use Swolf\Core\Container\IO;
 
 class Monitor implements Process
 {
-    public function process(SwooleProcess $process)
+    public function execute(SwooleProcess $process)
     {
         while (true) {
             $info = Resource::$server->stats();

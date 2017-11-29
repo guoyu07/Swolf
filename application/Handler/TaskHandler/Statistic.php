@@ -8,7 +8,7 @@
 
 namespace App\Handler\TaskHandler;
 
-use Swolf\Core\Interfaces\Server\Handler;
+use Swolf\Core\Server\Handler;
 use Swoole\Server;
 
 class Statistic implements Handler

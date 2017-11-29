@@ -6,7 +6,7 @@
  * Time: 上午12:26
  */
 
-namespace Swolf\Core\Interfaces\Server;
+namespace Swolf\Core\Server;
 
 interface Handler
 {

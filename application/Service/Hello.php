@@ -1,12 +1,6 @@
 <?php
-/**
- * @Description:
- * @Author: chenqinghe
- * @Date: 2017/11/13
- * @Time: 16:34
- */
 
-namespace App\Controller;
+namespace App\Service;
 
 use Swoole\Http\Request;
 use Swolf\Component\Http\Response\Response;

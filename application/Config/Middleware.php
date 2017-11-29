@@ -8,19 +8,17 @@
 
 namespace App\Config;
 
-class Middleware
+use Swolf\Config\Middleware as MiddlewareInterface;
+
+class Middleware implements MiddlewareInterface
 {
 
-    public static $http = [
-        'App\\Middleware\\FaviconFilter',
-        'App\\Middleware\\JwtAuth',
-    ];
-
-    public static $tcp = [];
-
-    public static $udp = [];
-
-    public static $websocket = [];
-
+    public static function getMiddlewares()
+    {
+        return [
+            \App\Middleware\JwtAuth::class,
+            \App\Middleware\FaviconFilter::class,
+        ];
+    }
 
 }

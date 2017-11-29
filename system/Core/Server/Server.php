@@ -1,17 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: diki
- * Date: 17-11-20
- * Time: 上午12:49
- */
+//MIT License
+//
+//Copyright (c) 2017 清和
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+//
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+//
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//                                           LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 
 namespace Swolf\Core\Server;
 
-use Swolf\Core\Interfaces\Server\Process;
-use Swolf\Core\Interfaces\Server\Handler;
 use Swoole\Process as SwooleProcess;
 use Swoole\Server as SwooleServer;
+use Swolf\Core\Container\Server as ServerContainer;
 
 
 class Server
@@ -26,6 +40,7 @@ class Server
     public function __construct(SwooleServer $server)
     {
         $this->server = $server;
+        ServerContainer::register($this->server);
     }
 
 
@@ -51,6 +66,12 @@ class Server
     public function run()
     {
         $this->server->start();
+    }
+
+
+    public function __call($name, $arguments)
+    {
+        call_user_func_array([$this->server, $name], $arguments);
     }
 
 

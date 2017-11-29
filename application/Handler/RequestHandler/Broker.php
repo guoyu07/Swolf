@@ -21,20 +21,24 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-namespace App\Config;
+namespace App\Handler\RequestHandler;
 
-use Swolf\Config\Handler as HandlerInterface;
+use Swolf\Handler\Restful\OnRequest;
+use App\Config\Middleware;
+use App\Config\Routes;
 
-class Handler implements HandlerInterface
+class Broker extends OnRequest
 {
-    public static function getHandlers()
+
+    public function __construct()
     {
-        return [
-            \App\Handler\TaskHandler\Statistic::class,
-            \App\Handler\TaskFinishHandler\Log::class,
-//            \App\Handler\WorkerStartHandler\InitDatabaseConnection::class,
-            \App\Handler\RequestHandler\Broker::class,
-        ];
+        parent::__construct();
+
+        $this->initMiddleware(Middleware::getMiddlewares());
+
+        $this->initRouter(Routes::getRouters());
+
     }
+
 
 }

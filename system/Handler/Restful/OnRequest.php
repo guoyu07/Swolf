@@ -1,19 +1,38 @@
 <?php
+//MIT License
+//
+//Copyright (c) 2017 清和
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+//
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+//
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//                                           LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 
-namespace Swolf\Handler\RequestHandler;
+namespace Swolf\Handler\Restful;
 
-use App\Config\Routes;
 use DevLibs\Routing\Router;
 use Swolf\Core\Container\IO;
-use Swolf\Core\Interfaces\Server\Handler;
+use Swolf\Core\Server\Handler;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
-use App\Config\Middleware;
 use Swolf\Component\Http\Middleware\MiddlewareInterface;
 use Swolf\Component\Http\Response\ResponseInterface;
 
 
-class HttpHandler implements Handler
+class OnRequest implements Handler
 {
 
 
@@ -30,9 +49,12 @@ class HttpHandler implements Handler
 
     public function __construct()
     {
-        $this->initRouter();
+    }
 
-        $this->initMiddleware();
+
+    public function handlerType(): int
+    {
+        return self::Request;
     }
 
 
@@ -46,29 +68,28 @@ class HttpHandler implements Handler
     }
 
 
-    private function initRouter()
+    protected function initRouter(array $routers)
     {
         $this->router = new Router();
 
-        foreach (Routes::$get as $path => $action) {
-            $paramArr = explode('@', $action);
+        foreach ($routers as $router) {
+            $paramArr = explode('@', $router['action']);
             if (count($paramArr) < 2) {
                 $method = 'index';
             } else {
                 $method = $paramArr[1];
             }
             $class = $paramArr[0];
-            $classObject = new $class;
-            $this->router->get($path, [$classObject, $method]);
+            call_user_func([$this->router, $router['method']], $router['path'], [new $class, $method]);
         }
     }
 
 
-    private function initMiddleware()
+    protected function initMiddleware(array $middlewares)
     {
         $requestHandler = $this->getRequestHandler();
 
-        foreach (array_reverse(Middleware::$http) as $middlewareClass) {
+        foreach (array_reverse($middlewares) as $middlewareClass) {
             $middleware = new $middlewareClass;
             if ($middleware instanceof MiddlewareInterface) {
                 $requestHandler = function (Request $request, Response $response) use ($middleware, $requestHandler) {

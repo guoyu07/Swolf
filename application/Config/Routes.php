@@ -8,10 +8,17 @@
 
 namespace App\Config;
 
-class Routes
+
+use \Swolf\Config\Routers as RoutesInterface;
+
+class Routes implements RoutesInterface
 {
-    public static $get = [
-        '/index' => 'App\\Controller\\Hello@sayHello'
-    ];
+
+    public static function getRouters()
+    {
+        return [
+            ['method' => 'post', 'path' => '/index', 'action' => '\\App\\Service\\Hello@sayHello'],
+        ];
+    }
 
 }

@@ -21,20 +21,49 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-namespace App\Config;
+namespace Swolf\Core\Server;
 
-use Swolf\Config\Handler as HandlerInterface;
+use Swoole\Server as SwooleServer;
+use Swoole\Http\Server as HttpServer;
+use Swoole\WebSocket\Server as WebsocketServer;
+use Swolf\Core\Container\Config;
 
-class Handler implements HandlerInterface
+class Factory
 {
-    public static function getHandlers()
+
+    private function __construct()
     {
-        return [
-            \App\Handler\TaskHandler\Statistic::class,
-            \App\Handler\TaskFinishHandler\Log::class,
-//            \App\Handler\WorkerStartHandler\InitDatabaseConnection::class,
-            \App\Handler\RequestHandler\Broker::class,
-        ];
     }
+
+
+    /**
+     * @return Server
+     */
+    public static function instance()
+    {
+        $host = Config::get('server.host');
+        $port = Config::get('server.port');
+
+        switch (Config::get('server.type')) {
+            case 'tcp':
+                $server = new SwooleServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+                break;
+            case 'udp':
+                $server = new SwooleServer($host, $port, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+                break;
+            case 'websocket':
+                $server = new WebsocketServer($host, $port);
+                break;
+            default://http
+                $server = new HttpServer($host, $port);
+
+        }
+
+        $server->set(Config::get('settings'));
+
+        return new Server($server);
+
+    }
+
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Handler\WorkerStartHandler;
 
-use Swolf\Core\Interfaces\Server\Handler;
+use Swolf\Core\Server\Handler;
 use App\Config\Database;
 use Swolf\Core\Container\Resource;
 use Swoole\Server;

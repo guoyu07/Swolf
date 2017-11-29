@@ -5,73 +5,78 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
-use App\Config\Server as ServerConfig;
-use Swolf\Core\Server\ServerFactory;
+
+//use App\Config\Handler;
+//use App\Config\Server;
+//use App\Config\Process;
+
+//use Swolf\Core\Server\HttpServer;
+//use Swolf\Core\Server\WebsocketServer;
+//use Swolf\Core\Server\BasicServer;
+//use Swolf\Core\Container\Config;
+
 
 $meta = [
-    'name' => Server::$setting['app_name'],
-    'version' => Server::$setting['app_version'],
+    'name' => 'Swolf Server Controller',
+    'version' => '0.4.0',
 ];
 $input = new Input;
 $output = new Output;
 $app = new Application($meta, $input, $output);
 
-
-/**
- * the priority of server's settings is:
- *      cli > config > default
- * which means if the commandline options is set and
- * different with config file, the options pointed by config file
- * will be override by commandline options.
- * if neither commandline or config file pointed required options,
- * the default value will be used.
- *
- */
 $app->command('start', function (Input $in, Output $out) {
 
     $host = $in->getOption('h');
     $port = $in->getOption('p');
+    $configFile = $in->getOption('c');
     $daemon = $in->getBoolOpt('d');
 
-    if (function_exists('cli_set_process_title')) {
-        cli_set_process_title(Server::$setting['app_name']);
-    } else {
-        swoole_set_process_name(Server::$setting['app_name']);
+    empty($configFile) && $configFile = './swolf.ini';
+
+    if (!file_exists($configFile)) {
+        $out->error(sprintf("can not find the config file you specified: %s", $configFile), true);
     }
 
-    $serverConfig = new ServerConfig();
+    $config = parse_ini_file($configFile, true);
 
-    $serverConfig->setHost($host);
-    $serverConfig->setPort($port);
-    $serverConfig->deamonize($daemon);
+    $pidFile = $config['settings']['pid_file'];
 
-    $server = ServerFactory::instance($serverConfig);
+    //write pid to pid file.
+    $handler = fopen($pidFile, 'w');
+    if ($handler === false) {
+        $out->error(sprintf("cannot write to pid file: %s", $pidFile), true);
+    }
 
-    $server->run();
+    $p = pcntl_fork();
+    if ($p===0){
+
+    }elseif($p=1){
+
+    }else{
+
+    }
+
+    fwrite($handler, $pid);
+    fclose($handler);
+
+    if ($daemon) {
+    }
+
+    $out->info(sprintf("server is running at %s:%d", $host, $port));
 
 }, 'start application');
 
 
 $app->command('restart', function (Input $in, Output $out) {
-
-
 }, 'restart application');
 
 
 $app->command('stop', function (Input $in, Output $out) {
-
-
-    if (!file_exists())
-
-        $pid = file_get_contents(Server::$setting['pid_file']);
-
-    if (!posix_kill($pid, SIGKILL)) {
-        $out->error('can not stop process ' . $pid, true);
-    }
-
-    unlink(Server::$setting['pid_file']);
-
+    $command = sprintf('ps aux|grep \'%s\'|grep -v grep|head -1|awk \'{print $2}\'|xargs kill ', Server::$setting['app_name']);
+    system($command);
+    $out->info('server status....stop');
 }, 'stop application');
+
 
 $app->command('status', function (Input $in, Output $out) {
     $command = sprintf('ps aux|grep \'%s\'|grep -v grep|wc -l', Server::$setting['app_name']);
@@ -82,5 +87,6 @@ $app->command('status', function (Input $in, Output $out) {
         $out->info('server is shutdown');
     }
 }, 'show status of applicaiton');
+
 
 $app->run();

@@ -8,10 +8,10 @@
 
 namespace App\Config;
 
-use Swolf\Core\Interfaces\Server\Config\Server as ServerConfigInterface;
+use Swolf\Core\Server\Config as ServerConfigInterface;
 use Swoole\Mysql\Exception;
 
-class Server implements ServerConfigInterface
+class Config implements ServerConfigInterface
 {
 
     protected $appName = '';

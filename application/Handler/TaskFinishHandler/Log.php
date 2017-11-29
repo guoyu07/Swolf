@@ -2,7 +2,7 @@
 
 namespace App\Handler\TaskFinishHandler;
 
-use Swolf\Core\Interfaces\Server\Handler;
+use Swolf\Core\Server\Handler;
 use Swoole\Server;
 
 class Log implements Handler
@@ -16,7 +16,7 @@ class Log implements Handler
     public function handleFunc(): callable
     {
         return function (Server &$server) {
-            $server->on('taskfinish', function (Server $serv, $task_id, $data) {
+            $server->on('finish', function (Server $serv, $task_id, $data) {
                 $log_msg = sprintf('task %d finished. result is %s', $task_id, $data);
                 @error_log($log_msg, 3, '/tmp/swolf.log');
             });
