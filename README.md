@@ -1,4 +1,4 @@
-# Swolf   ![Build Status](https://travis-ci.org/php-swolf/Swolf.svg?branch=v0.4)
+# Swolf   [![Build Status](https://travis-ci.org/php-swolf/Swolf.svg?branch=v0.4)](https://travis-ci.org/php-swolf/Swolf)
 
 swolf is a micro-service framework based on swoole.
 
