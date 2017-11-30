@@ -8,7 +8,7 @@ RUN pecl install swoole \
   && apt-get install -y git \
   && git clone https://github.com/chenqinghe/Swolf.git \
   && cd Swolf \
-  && git checkout v0.4 \
+  && git checkout v0.4
 
 EXPOSE 9501
 
