@@ -6,6 +6,8 @@ RUN pecl install swoole \
   && docker-php-ext-install mbstring \
   && apt-get update \
   && apt-get install -y git \
+  && apt-get clean \
+  && apt-get autoclean \
   && git clone https://github.com/chenqinghe/Swolf.git \
   && cd Swolf \
   && git checkout v0.4 \
