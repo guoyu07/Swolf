@@ -9,9 +9,13 @@ RUN pecl install swoole \
   && git clone https://github.com/chenqinghe/Swolf.git \
   && cd Swolf \
   && git checkout v0.4
+  && curl -sS https://getcomposer.org/installer | php \
+  && mv composer.phar /usr/local/bin/composer \
+  && chmod u+x /usr/local/bin/composer \
+  && composer install
 
 EXPOSE 9501
 
-WORKDIR /swolf
+WORKDIR /Swolf
 
 ENTRYPOINT ["/bin/bash","-c"]
