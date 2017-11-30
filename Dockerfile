@@ -8,7 +8,7 @@ RUN pecl install swoole \
   && apt-get install -y git \
   && git clone https://github.com/chenqinghe/Swolf.git \
   && cd Swolf \
-  && git checkout v0.4
+  && git checkout v0.4 \
   && curl -sS https://getcomposer.org/installer | php \
   && mv composer.phar /usr/local/bin/composer \
   && chmod u+x /usr/local/bin/composer \
